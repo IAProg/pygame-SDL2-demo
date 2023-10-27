@@ -2,7 +2,6 @@ import pygame, sys
 from pygame.locals import *
 from entities import *
 from config import *
-from random import randint
 from textureManager import TextureManager as tm
 
 class Game:
@@ -23,14 +22,7 @@ class Game:
 		self.player = Player( pygame.Vector2(SCR_W // 2, SCR_H // 2) )
 		self.bulletGroup = pygame.sprite.Group()
 		self.mineGroup = pygame.sprite.Group()
-		self.starGroup = pygame.sprite.Group()
-		
-		dist = [0] * 1000
-		dist = dist + [1] * 5
-		dist = dist + [2] * 312
-		dist = dist + [3] * 50
-		for i in range(len(dist)):
-			self.starGroup.add(Star(dist[i]))
+		self.background = Background()
 
 		self.mainloop()
 
@@ -42,7 +34,7 @@ class Game:
 
 		pressed = pygame.key.get_pressed()
 		if pressed[pygame.K_SPACE] and self.bulletTimer <= 0:
-			self.bulletGroup.add(Bullet(self.player.pos.copy(), self.player.vel.copy()))
+			Bullet(self.bulletGroup, self.player.pos.copy(), self.player.vel.copy())
 			self.bulletTimer = COOLDOWN_BULLET
 		
 		self.inputDir *= 0
@@ -55,10 +47,7 @@ class Game:
 		if pressed[pygame.K_s]:
 			self.inputDir.y += 1
 		if abs(self.inputDir.length()) > 0:
-			self.inputDir.normalize_ip()
-
-	def spawnMine(self):
-		self.mineGroup.add( Mine() )
+			self.inputDir.normalize_ip()	
 
 	def collisionDetect(self):
 		for c in pygame.sprite.groupcollide(self.bulletGroup, self.mineGroup, True, True):
@@ -69,9 +58,9 @@ class Game:
 
 
 	def update(self, dt):
+		self.background.update(dt)
 		self.player.update(dt, self.inputDir)
 		self.mineGroup.update(dt)
-		self.starGroup.update(dt)
 		self.bulletGroup.update(dt)
 
 		self.bulletTimer -= dt
@@ -79,12 +68,12 @@ class Game:
 
 		if self.mineTimer <= 0:
 			self.mineTimer = COOLDOWN_MINE
-			self.spawnMine()
+			Mine(self.mineGroup)
 
 	def draw(self):
 		self.surface.fill(BG_FILL)
 
-		self.starGroup.draw(self.surface)
+		self.background.draw(self.surface)
 		self.mineGroup.draw(self.surface)
 		self.bulletGroup.draw(self.surface)
 		self.player.draw(self.surface)

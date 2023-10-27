@@ -4,12 +4,28 @@ from config import *
 from random import randint
 from textureManager import TextureManager as tm
 
+class Background(pg.sprite.Group):
+	def __init__(self):
+		pg.sprite.Group.__init__(self)
+
+		backdrop = pg.sprite.Sprite(self)
+		backdrop.image = tm.fetch("bg")
+		backdrop.rect  = backdrop.image.get_rect()
+
+		dist = [1] * 5
+		dist = dist + [2] * 400
+		dist = dist + [3] * 25
+		for val in dist:
+			Star(self, val)
+
+
+
 class Star(pg.sprite.Sprite):
 	skins = ["Star1","Star2","Star3","Star4"]
 	speed = 2
 
-	def __init__(self, size):
-		pg.sprite.Sprite.__init__(self)
+	def __init__(self, group, size):
+		pg.sprite.Sprite.__init__(self, group)
 		self.dir = pg.Vector2(0, 1)
 		self.size = size
 		self.image = tm.fetch(Star.skins[self.size])
@@ -24,7 +40,7 @@ class Star(pg.sprite.Sprite):
 
 	def update(self, dt):
 		self.pos += (self.dir * Star.speed * (pow(self.size,3)) * dt)
-		self.rect.center = self.pos.xy
+		self.rect.bottomleft = self.pos.xy
 		if self.pos.y > SCR_H:
 			self.reset()
 
@@ -32,8 +48,8 @@ class Mine(pg.sprite.Sprite):
 	speed = 40
 	reward = 10
 
-	def __init__(self):
-		pg.sprite.Sprite.__init__(self)
+	def __init__(self, group):
+		pg.sprite.Sprite.__init__(self, group)
 		self.image = tm.fetch("mine")
 		self.rect  = self.image.get_rect()
 		self.dir = pg.Vector2(0, 1)
@@ -50,8 +66,8 @@ class Mine(pg.sprite.Sprite):
 class Bullet(pg.sprite.Sprite):
 	speed = -2500
 
-	def __init__(self, pos, playerVel):
-		pg.sprite.Sprite.__init__(self)
+	def __init__(self, group, pos, playerVel):
+		pg.sprite.Sprite.__init__(self, group)
 		self.image = tm.fetch("bullet")
 		self.rect  = self.image.get_rect()
 		self.vel = playerVel + pg.Vector2(0, Bullet.speed)
