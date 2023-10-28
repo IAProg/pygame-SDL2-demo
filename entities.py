@@ -13,7 +13,6 @@ class LagInducer(pg.sprite.Group):
 		newSprite.image = tm.fetch("512px")
 		newSprite.rect = newSprite.image.get_rect()
 		newSprite.rect.center = randint(0, SCR_W), randint(0, SCR_H)
-
 	
 
 class Background(pg.sprite.Group):

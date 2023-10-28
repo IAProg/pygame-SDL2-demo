@@ -19,6 +19,8 @@ class Game:
 
 		tm.load()
 
+		self.font = pygame.font.SysFont('Verdana', FONT_SIZE)
+
 		self.background = Background()
 		self.lagInducer = LagInducer()
 		self.player = Player( pygame.Vector2(SCR_W // 2, SCR_H // 2) )
@@ -83,6 +85,7 @@ class Game:
 		self.mineGroup.draw(self.surface)
 		self.bulletGroup.draw(self.surface)
 		self.player.draw(self.surface)
+		self.draw_fps()
 		
 		pygame.display.flip()
 
@@ -93,7 +96,19 @@ class Game:
 			self.eventHandle()
 			self.update(dt)
 			self.draw()
-			print(Game.clock.get_fps())
+	
+	def draw_fps(self):
+		spriteCount = sum ((
+			len(self.background.sprites()),
+			len(self.lagInducer.sprites()),
+			len(self.bulletGroup.sprites()),
+			len(self.mineGroup.sprites()),
+			len(self.background.sprites())
+		))
+		fps = f'{Game.clock.get_fps() :.0f} FPS | {spriteCount} SPRITES'
+		tex = self.font.render(fps, False, "green")
+		self.surface.blit(tex, (0,0))
+		
 
 if __name__ == "__main__":
 	game = Game()
