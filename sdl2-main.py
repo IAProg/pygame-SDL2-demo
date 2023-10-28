@@ -10,7 +10,7 @@ class Game:
 	def __init__(self):
 		pg.init()
 		self.window = Window(TITLE, RESOLUTION)
-		self.renderer = Renderer(self.window, -1, -10 ,False)
+		self.renderer = Renderer(self.window)
 		self.renderer.draw_color = BG_FILL
 
 		self.inputDir = pygame.Vector2(0,0)	

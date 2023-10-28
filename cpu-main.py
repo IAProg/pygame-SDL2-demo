@@ -9,9 +9,8 @@ class Game:
 	def __init__(self):
 		pygame.init()
 		pygame.display.set_caption(TITLE)
-		flags = pygame.SCALED
-		self.surface = pygame.display.set_mode(RESOLUTION, flags)
 
+		self.screen = pygame.display.set_mode(RESOLUTION)
 		self.inputDir = pygame.Vector2(0,0)	
 		self.bulletTimer = 0
 		self.mineTimer = 0
@@ -78,13 +77,13 @@ class Game:
 			Mine(self.mineGroup)
 
 	def draw(self):
-		self.surface.fill(BG_FILL)
+		self.screen.fill(BG_FILL)
 
-		self.background.draw(self.surface)
-		self.lagInducer.draw(self.surface)
-		self.mineGroup.draw(self.surface)
-		self.bulletGroup.draw(self.surface)
-		self.player.draw(self.surface)
+		self.background.draw(self.screen)
+		self.lagInducer.draw(self.screen)
+		self.mineGroup.draw(self.screen)
+		self.bulletGroup.draw(self.screen)
+		self.player.draw(self.screen)
 		self.draw_fps()
 		
 		pygame.display.flip()
@@ -107,7 +106,7 @@ class Game:
 		))
 		fps = f'{Game.clock.get_fps() :.0f} FPS | {spriteCount} SPRITES'
 		tex = self.font.render(fps, False, "green")
-		self.surface.blit(tex, (0,0))
+		self.screen.blit(tex, (0,0))
 		
 
 if __name__ == "__main__":
