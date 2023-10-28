@@ -19,10 +19,11 @@ class Game:
 
 		tm.load()
 
+		self.background = Background()
+		self.lagInducer = LagInducer()
 		self.player = Player( pygame.Vector2(SCR_W // 2, SCR_H // 2) )
 		self.bulletGroup = pygame.sprite.Group()
 		self.mineGroup = pygame.sprite.Group()
-		self.background = Background()
 
 		self.mainloop()
 
@@ -36,6 +37,9 @@ class Game:
 		if pressed[pygame.K_SPACE] and self.bulletTimer <= 0:
 			Bullet(self.bulletGroup, self.player.pos.copy(), self.player.vel.copy())
 			self.bulletTimer = COOLDOWN_BULLET
+
+		if pressed[pygame.K_b]:
+			self.lagInducer.addSprite()
 		
 		self.inputDir *= 0
 		if pressed[pygame.K_a]:
@@ -59,6 +63,7 @@ class Game:
 
 	def update(self, dt):
 		self.background.update(dt)
+		self.lagInducer.update(dt)
 		self.player.update(dt, self.inputDir)
 		self.mineGroup.update(dt)
 		self.bulletGroup.update(dt)
@@ -74,6 +79,7 @@ class Game:
 		self.surface.fill(BG_FILL)
 
 		self.background.draw(self.surface)
+		self.lagInducer.draw(self.surface)
 		self.mineGroup.draw(self.surface)
 		self.bulletGroup.draw(self.surface)
 		self.player.draw(self.surface)

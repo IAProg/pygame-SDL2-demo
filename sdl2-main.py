@@ -25,6 +25,7 @@ class Game:
 		self.fps_surf = pg.Surface(self.fps_size)
 
 		self.background = Background()
+		self.lagInducer = LagInducer()
 		self.player = Player( pygame.Vector2(SCR_W // 2, SCR_H // 2) )
 		self.bulletGroup = pygame.sprite.Group()
 		self.mineGroup = pygame.sprite.Group()
@@ -41,6 +42,9 @@ class Game:
 		if pressed[pygame.K_SPACE] and self.bulletTimer <= 0:
 			Bullet(self.bulletGroup, self.player.pos.copy(), self.player.vel.copy())
 			self.bulletTimer = COOLDOWN_BULLET
+
+		if pressed[pygame.K_b]:
+			self.lagInducer.addSprite()
 		
 		self.inputDir *= 0
 		if pressed[pygame.K_a]:
@@ -65,6 +69,7 @@ class Game:
 
 	def update(self, dt):
 		self.background.update(dt)
+		self.lagInducer.update(dt)
 		self.player.update(dt, self.inputDir)
 		self.mineGroup.update(dt)
 		self.bulletGroup.update(dt)
@@ -80,6 +85,7 @@ class Game:
 		self.renderer.clear()
 
 		self.background.draw(self.renderer)
+		self.lagInducer.draw(self.renderer)
 		self.mineGroup.draw(self.renderer)
 		self.bulletGroup.draw(self.renderer)
 		self.player.draw(self.renderer)
@@ -98,6 +104,8 @@ class Game:
 		
 	def draw_fps(self):
 		spriteCount = sum ((
+			len(self.background.sprites()),
+			len(self.lagInducer.sprites()),
 			len(self.bulletGroup.sprites()),
 			len(self.mineGroup.sprites()),
 			len(self.background.sprites())

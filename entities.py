@@ -4,6 +4,18 @@ from config import *
 from random import randint
 from textureManager import TextureManager as tm
 
+class LagInducer(pg.sprite.Group):
+	def __init__(self):
+		pg.sprite.Group.__init__(self)
+
+	def addSprite(self):
+		newSprite = pg.sprite.Sprite(self)
+		newSprite.image = tm.fetch("512px")
+		newSprite.rect = newSprite.image.get_rect()
+		newSprite.rect.center = randint(0, SCR_W), randint(0, SCR_H)
+
+	
+
 class Background(pg.sprite.Group):
 	def __init__(self):
 		pg.sprite.Group.__init__(self)
@@ -17,8 +29,6 @@ class Background(pg.sprite.Group):
 		dist = dist + [3] * 25
 		for val in dist:
 			Star(self, val)
-
-
 
 class Star(pg.sprite.Sprite):
 	skins = ["Star1","Star2","Star3","Star4"]
