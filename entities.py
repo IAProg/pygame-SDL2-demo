@@ -24,14 +24,14 @@ class Background(pg.sprite.Group):
 		backdrop.image = tm.fetch("bg")
 		backdrop.rect  = backdrop.image.get_rect()
 
-		dist = [1] * 5
-		dist = dist + [2] * 400
-		dist = dist + [3] * 25
+		dist = [0] * 5
+		dist = dist + [1] * 400
+		dist = dist + [2] * 25
 		for val in dist:
 			Star(self, val)
 
 class Star(pg.sprite.Sprite):
-	skins = ["Star1","Star2","Star3","Star4"]
+	skins = ["Star1","Star2","Star3"]
 	speed = 2
 
 	def __init__(self, group, size):
