@@ -1,6 +1,6 @@
-python cpu-main.py -> run "standard" software rendered version 
-python SDL2-main.py -> run gpu accelerated version
+python cpu-main.py -> run "standard" software rendered version<br />
+python SDL2-main.py -> run gpu accelerated version<br />
 
-WASD to move
-Space to shoot
-B to add stress testing sprites
+WASD to move<br />
+Space to shoot<br />
+B to add stress testing sprites<br />
