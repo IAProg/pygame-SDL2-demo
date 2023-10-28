@@ -21,8 +21,8 @@ class Game:
 		tm.loadSDL2(self.renderer)
 
 		self.font = pygame.font.SysFont('Verdana', FONT_SIZE)
-		self.fps_size = [FONT_SIZE * 8, FONT_SIZE * 1.5]
-		self.fps_surf = pg.Surface(self.fps_size)
+		fps_size = [FONT_SIZE * 8, FONT_SIZE * 1.5]
+		self.fps_rect = pygame.rect.Rect(0,0,*fps_size)
 
 		self.background = Background()
 		self.lagInducer = LagInducer()
@@ -112,7 +112,8 @@ class Game:
 		))
 		fps = f'{Game.clock.get_fps() :.0f} FPS | {spriteCount} SPRITES'
 		tex = Texture.from_surface(self.renderer, self.font.render(fps, False, "green"))
-		tex.draw((0, 0, 1000,100), (0, 0, *self.fps_size))
+		self.renderer.blit(tex, self.fps_rect)
+
 
 if __name__ == "__main__":
 	game = Game()
